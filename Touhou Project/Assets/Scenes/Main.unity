@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 8
+  serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -39,6 +39,7 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -54,11 +55,10 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 9
+    serializedVersion: 10
     m_Resolution: 2
     m_BakeResolution: 40
-    m_TextureWidth: 1024
-    m_TextureHeight: 1024
+    m_AtlasSize: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -152,6 +152,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &179001502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +168,7 @@ MonoBehaviour:
   mJumpForce: 1000
   mDashDistance: 3
   mFacingRight: 1
+  mCanMove: 1
   mIsGrounded: 0
   mLayerMask:
     serializedVersion: 2
@@ -231,6 +233,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -298,6 +301,7 @@ GameObject:
   - component: {fileID: 403081042}
   - component: {fileID: 403081041}
   - component: {fileID: 403081040}
+  - component: {fileID: 403081044}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -368,6 +372,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &403081044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 403081039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb288638e40b7ae40af9b7435cc28427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTargets:
+  - {fileID: 970627558}
+  - {fileID: 179001507}
+  mOffset: {x: 0, y: 1.5, z: -10}
+  xMin: -5.5
+  xMax: 5.5
+  yMin: -4.4
+  yMax: 0.5
+  lerpSpeed: 0.05
 --- !u!1 &410334209
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,6 +502,7 @@ MonoBehaviour:
   mJumpForce: 1000
   mDashDistance: 3
   mFacingRight: 1
+  mCanMove: 1
   mIsGrounded: 0
   mLayerMask:
     serializedVersion: 2
@@ -531,6 +556,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -593,6 +619,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &970627560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0ff2ed0374a4e845a8abec28c7690ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mPlayerAttacking: 0
+  hitBoxArray:
+  - {fileID: 1722560726830342, guid: f13cb8f31f1c9ca46aac6a0943a0e4e1, type: 2}
 --- !u!1 &1006466863
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +839,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -865,7 +896,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.1213007}
+  m_Offset: {x: 0.000000014901161, y: 0.1213007}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -876,7 +907,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.7573986}
+  m_Size: {x: 0.86285114, y: 0.7573986}
   m_EdgeRadius: 0
 --- !u!1 &1825764923
 GameObject:

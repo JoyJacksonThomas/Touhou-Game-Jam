@@ -13,4 +13,12 @@ public class MarisaInput : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void Attack(bool attack, float directionX, float directionY)
+    {
+        if (attack)
+        {
+            Debug.Log("X:" + directionX + "Y:" + directionY);
+        }
+    }
 }
