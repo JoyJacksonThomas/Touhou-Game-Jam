@@ -25,7 +25,7 @@ public class ReimuInput : MonoBehaviour
         GetComponent<PlayerMotor>().mCanMove = !mPlayerAttacking;
     }
 
-    public void Attack(bool attack, float directionX, float directionY)
+    public void Attack(bool attack, bool special, float directionX, float directionY)
     {
         if (!mPlayerAttacking)
         {
@@ -45,6 +45,28 @@ public class ReimuInput : MonoBehaviour
                 else if (directionY < 0.9)
                 {
                     mAnimator.SetTrigger("DownAttack");
+                }
+                else
+                {
+                    SwitchAttackBool();
+                }
+            }
+            if (special)
+            {
+                mPlayerAttacking = true;
+                Debug.Log("X:" + directionX + "Y:" + directionY);
+                if (directionX == 0 && directionY == 0)
+                {
+                    mAnimator.SetTrigger("NeutralSpecial");
+
+                }
+                else if (directionX > 0.9 || directionX < -0.9)
+                {
+                    mAnimator.SetTrigger("SideSpecial");
+                }
+                else if (directionY < 0.9)
+                {
+                    mAnimator.SetTrigger("DownSpecial");
                 }
                 else
                 {

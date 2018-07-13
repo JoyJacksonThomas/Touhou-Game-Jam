@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -23,16 +24,30 @@ public class PlayerMotor : MonoBehaviour
 
     public float mDamageMultiplier = 0.0f;
 
+    Text mHealthCounter;
+
     void Start()
     {
         mRigidBody2D = GetComponent<Rigidbody2D>();
         mPlayerAnimator = GetComponent<Animator>();
+        if (gameObject.name == "Player1")
+        {
+            mHealthCounter = GameObject.Find("P1Health/Health").GetComponentInChildren<Text>();
+        }
+        else if (gameObject.name == "Player2")
+        {
+            mHealthCounter = GameObject.Find("P2Health/Health").GetComponentInChildren<Text>();
+        }
+
+
     }
 
     void Update()
     {
         mIsGrounded = Physics2D.OverlapCircle(mGroundCheck.position, 0.01f, mLayerMask);
         mPlayerAnimator.SetBool("Grounded", mIsGrounded);
+
+        mHealthCounter.text = mDamageMultiplier.ToString() + " %";
     }
 
     public void Flip()

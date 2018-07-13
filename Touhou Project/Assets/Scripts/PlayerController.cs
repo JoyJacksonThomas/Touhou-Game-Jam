@@ -42,13 +42,15 @@ public class PlayerController : MonoBehaviour
 
         bool _attack = Input.GetButtonDown(prefix[mPlayerIndex] + "Attack");
 
+        bool _special = Input.GetButtonDown(prefix[mPlayerIndex] + "Special");
+
         if (gameObject.GetComponent<ReimuInput>() != null)
         {
-            gameObject.GetComponent<ReimuInput>().Attack(_attack, _horizontal, _vertical);
+            gameObject.GetComponent<ReimuInput>().Attack(_attack, _special, _horizontal, _vertical);
         }
         else if(gameObject.GetComponent<MarisaInput>() != null)
         {
-            gameObject.GetComponent<MarisaInput>().Attack(_attack, _horizontal, _vertical);
+            gameObject.GetComponent<MarisaInput>().Attack(_attack, _special, _horizontal, _vertical);
         }
 
         if (_jump)
