@@ -3,7 +3,7 @@
 --- !u!74 &7400000
 AnimationClip:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Reimu_Side_Attack
   serializedVersion: 6
@@ -85,14 +85,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.41666666
+  - time: 0.48333332
     functionName: SwitchAttackBool
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.41666666
+  - time: 0.48333332
     functionName: DestroyAttackCollider
     data: 
     objectReferenceParameter: {fileID: 0}

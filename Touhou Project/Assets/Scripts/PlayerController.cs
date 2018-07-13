@@ -17,11 +17,11 @@ public class PlayerController : MonoBehaviour
         mPlayerAnimator = GetComponent<Animator>();
         if (name == "Player1")
         {
-            mPlayerIndex = 0;
+            mPlayerIndex = 1;
         }
         else if (name == "Player2")
         {
-            mPlayerIndex = 1;
+            mPlayerIndex = 0;
         }
     }
 
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        bool _jump = _jump = Input.GetButtonDown(prefix[mPlayerIndex] + "Jump");
+        bool _jump = Input.GetButtonDown(prefix[mPlayerIndex] + "Jump");
 
         bool _attack = Input.GetButtonDown(prefix[mPlayerIndex] + "Attack");
 
