@@ -89,8 +89,20 @@ public class PlayerMotor : MonoBehaviour
     {
         if (col.tag == "Attack")
         {
-            Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
-            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage);
+            if(col.transform.parent.GetComponent<PlayerMotor>().mFacingRight)
+            {
+
+                Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
+                mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage);
+            }
+            else
+            {
+
+                Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
+                mRigidBody2D.AddForce(new Vector2(-(col.GetComponent<HitboxContents>().mDirection.x), col.GetComponent<HitboxContents>().mDirection.y) * col.GetComponent<HitboxContents>().mDamage);
+            }
+
+            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
         }
     }
 }
