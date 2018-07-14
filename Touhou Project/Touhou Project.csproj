@@ -307,9 +307,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\HitboxContents.cs" />
     <Compile Include="Assets\Scripts\MarisaInput.cs" />
-    <Compile Include="Assets\Scripts\MarisaSpecials\Projectile.cs" />
+    <Compile Include="Assets\Scripts\MarisaSpecials\DestroyGameObject.cs" />
+    <Compile Include="Assets\Scripts\MarisaSpecials\LandMine.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerMotor.cs" />
+    <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\ReimuInput.cs" />
     <Compile Include="Assets\Scripts\SmashBrosCam.cs" />
   </ItemGroup>
