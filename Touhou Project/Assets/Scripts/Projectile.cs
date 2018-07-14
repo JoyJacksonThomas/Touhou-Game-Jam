@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour {
 
     public void SetDirection(float x, float y)
     {
-        mDirection = new Vector2(x, y);
+        mDirection = new Vector2(x, y).normalized;
         GetComponent<HitboxContents>().mDirection = mDirection;
     }
 }

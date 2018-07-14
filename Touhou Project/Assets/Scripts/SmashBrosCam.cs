@@ -32,7 +32,7 @@ public class SmashBrosCam : MonoBehaviour
    Vector3 GetCenterPoint()
    {
       var bounds = new Bounds(mTargets[0].position, Vector3.zero);
-      for(int i = 0; i < mTargets.Count; i++)
+      for (int i = 0; i < mTargets.Count; i++)
       {
          bounds.Encapsulate(mTargets[i].position);
       }
@@ -44,11 +44,11 @@ public class SmashBrosCam : MonoBehaviour
    {
       for (int i = 0; i < mTargets.Count; i++)
       {
-         if(!mTargets[i].GetComponent<Renderer>().isVisible)
+         if (!mTargets[i].GetComponent<Renderer>().isVisible)
          {
             mTargets[i].position = Vector3.zero;
             mTargets[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                mTargets[i].GetComponent<PlayerMotor>().mDamageMultiplier = 0;
+            mTargets[i].GetComponent<PlayerMotor>().mDamageMultiplier = 0;
          }
       }
    }

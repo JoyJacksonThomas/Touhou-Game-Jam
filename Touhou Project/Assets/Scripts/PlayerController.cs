@@ -5,58 +5,62 @@ using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
-    int mPlayerIndex;
+   int mPlayerIndex;
 
-    string[] prefix = { "P1 ", "P2 " };
-    private Animator mPlayerAnimator;
-    private PlayerMotor mPlayerMotor;
+   string[] prefix = { "P1 ", "P2 " };
+   private Animator mPlayerAnimator;
+   private PlayerMotor mPlayerMotor;
 
-    void Start()
-    {
-        mPlayerMotor = GetComponent<PlayerMotor>();
-        mPlayerAnimator = GetComponent<Animator>();
-        if (name == "Player1")
-        {
-            mPlayerIndex = 1;
-        }
-        else if (name == "Player2")
-        {
-            mPlayerIndex = 0;
-        }
-    }
+   public bool mCanInput = true;
 
-    void Update()
-    {
-        float _horizontal = Input.GetAxis(prefix[mPlayerIndex] + "Horizontal");
-        mPlayerMotor.Move(_horizontal);
+   void Start()
+   {
+      mPlayerMotor = GetComponent<PlayerMotor>();
+      mPlayerAnimator = GetComponent<Animator>();
+      if (name == "Player1")
+      {
+         mPlayerIndex = 0;
+      }
+      else if (name == "Player2")
+      {
+         mPlayerIndex = 1;
+      }
+   }
 
-        mPlayerAnimator.SetFloat("Horizontal", Mathf.Abs(_horizontal));
+   void Update()
+   {
+      if(mCanInput)
+      {
+         float _horizontal = Input.GetAxis(prefix[mPlayerIndex] + "Horizontal");
+         mPlayerMotor.Move(_horizontal);
 
-        float _vertical = Input.GetAxis(prefix[mPlayerIndex] + "Vertical");
+         mPlayerAnimator.SetFloat("Horizontal", Mathf.Abs(_horizontal));
 
-        mPlayerMotor.FastFall(_vertical);
+         float _vertical = Input.GetAxis(prefix[mPlayerIndex] + "Vertical");
+
+         mPlayerMotor.FastFall(_vertical);
 
 
 
-        bool _jump = Input.GetButtonDown(prefix[mPlayerIndex] + "Jump");
+         bool _jump = Input.GetButtonDown(prefix[mPlayerIndex] + "Jump");
 
-        bool _attack = Input.GetButtonDown(prefix[mPlayerIndex] + "Attack");
+         bool _attack = Input.GetButtonDown(prefix[mPlayerIndex] + "Attack");
 
-        bool _special = Input.GetButtonDown(prefix[mPlayerIndex] + "Special");
+         bool _special = Input.GetButtonDown(prefix[mPlayerIndex] + "Special");
 
-        if (gameObject.GetComponent<ReimuInput>() != null)
-        {
+         if (gameObject.GetComponent<ReimuInput>() != null)
+         {
             gameObject.GetComponent<ReimuInput>().Attack(_attack, _special, _horizontal, _vertical);
-        }
-        else if(gameObject.GetComponent<MarisaInput>() != null)
-        {
+         }
+         else if (gameObject.GetComponent<MarisaInput>() != null)
+         {
             gameObject.GetComponent<MarisaInput>().Attack(_attack, _special, _horizontal, _vertical);
-        }
+         }
 
-        if (_jump)
-        {
+         if (_jump)
+         {
             mPlayerMotor.Jump();
-        }
-
-    }
+         }
+      }
+   }
 }

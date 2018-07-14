@@ -137,7 +137,7 @@ public class PlayerMotor : MonoBehaviour
       else if (col.tag == "SpecialAttack")
       {
          mDamageMultiplier += .02f;
-         if(col.name == "Explosion(Clone)")
+         if (col.name == "Explosion(Clone)")
          {
             Debug.Log("asdfasdfasdfdasdffdsaasfd" + col.GetComponent<HitboxContents>().mDamage);
             col.GetComponent<HitboxContents>().mDirection = ((Vector2)transform.position - (Vector2)col.transform.position).normalized;
@@ -151,5 +151,16 @@ public class PlayerMotor : MonoBehaviour
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
          }
       }
+      else if (col.tag == "Stun")
+      {
+         GetComponent<PlayerController>().mCanInput = false;
+         StartCoroutine("Stun");
+      }
+   }
+
+   IEnumerator Stun()
+   {
+      yield return new WaitForSeconds(2);
+      GetComponent<PlayerController>().mCanInput = true;
    }
 }
