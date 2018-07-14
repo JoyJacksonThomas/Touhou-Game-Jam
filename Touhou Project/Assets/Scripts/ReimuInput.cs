@@ -5,8 +5,9 @@ using UnityEngine.Animations;
 
 public class ReimuInput : MonoBehaviour
 {
+    private Rigidbody2D mRigidBody2D;
 
-   public bool mPlayerAttacking = false;
+    public bool mPlayerAttacking = false;
    Animator mAnimator;
 
    GameObject currentAttackCollider;
@@ -15,12 +16,17 @@ public class ReimuInput : MonoBehaviour
    public GameObject mNeedlePrefab;
    public GameObject mYinYangPrefab;
    public GameObject mStunBallPrefab;
+    public GameObject mParticleBurst;
+    GameObject mCurrentParticle;
 
-   // Use this for initialization
-   void Start()
+    public float mRecoveryForce = 0;
+
+    // Use this for initialization
+    void Start()
    {
       mAnimator = GetComponent<Animator>();
-   }
+        mRigidBody2D = GetComponent<Rigidbody2D>();
+    }
 
    // Update is called once per frame
    void LateUpdate()
@@ -135,5 +141,21 @@ public class ReimuInput : MonoBehaviour
    {
       Destroy(currentAttackCollider);
    }
+    public void Recovery()
+    {
+        mRigidBody2D.velocity = new Vector2(mRigidBody2D.velocity.x, 0);
+        mRigidBody2D.AddForce(new Vector2(0, mRecoveryForce));
+        mCurrentParticle = (GameObject)Instantiate(mParticleBurst, transform.position, Quaternion.identity);
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), mCurrentParticle.GetComponent<Collider2D>());
+
+
+    }
+
+    public void DestroyParticle()
+    {
+        
+        Destroy(mCurrentParticle);
+
+    }
 
 }
