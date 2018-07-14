@@ -23,7 +23,7 @@ public class PlayerMotor : MonoBehaviour
    public float mDefaultGravityScale = 3;
    public float mHeavyGravityScale = 5;
 
-   public float mDamageMultiplier = 0.0f;
+   public int mDamageMultiplier = 0;
 
    Text mHealthCounter;
 
@@ -119,35 +119,30 @@ public class PlayerMotor : MonoBehaviour
    {
       if (col.tag == "Attack")
       {
-         mDamageMultiplier += .02f;
+         mDamageMultiplier += col.GetComponent<HitboxContents>().mDamageMultiplierFactor;
          if (col.transform.parent.GetComponent<PlayerMotor>().mFacingRight)
          {
-            Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
-            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * mDamageMultiplier);
+            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * (mDamageMultiplier / 100f));
          }
          else
          {
-
-            Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
-            mRigidBody2D.AddForce(new Vector2(-(col.GetComponent<HitboxContents>().mDirection.x), col.GetComponent<HitboxContents>().mDirection.y) * col.GetComponent<HitboxContents>().mDamage * mDamageMultiplier);
+            mRigidBody2D.AddForce(new Vector2(-(col.GetComponent<HitboxContents>().mDirection.x), col.GetComponent<HitboxContents>().mDirection.y) * col.GetComponent<HitboxContents>().mDamage * (mDamageMultiplier / 100f));
          }
 
          Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
       }
       else if (col.tag == "SpecialAttack")
       {
-         mDamageMultiplier += .02f;
+         mDamageMultiplier += col.GetComponent<HitboxContents>().mDamageMultiplierFactor;
          if (col.name == "Explosion(Clone)")
          {
-            Debug.Log("asdfasdfasdfdasdffdsaasfd" + col.GetComponent<HitboxContents>().mDamage);
             col.GetComponent<HitboxContents>().mDirection = ((Vector2)transform.position - (Vector2)col.transform.position).normalized;
-            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * mDamageMultiplier);
+            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * (mDamageMultiplier/100f));
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
          }
          else
          {
-            Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
-            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * mDamageMultiplier);
+            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection * col.GetComponent<HitboxContents>().mDamage * (mDamageMultiplier / 100f));
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
          }
       }

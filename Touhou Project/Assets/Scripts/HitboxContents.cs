@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HitboxContents : MonoBehaviour
 {
-    public float mDamage;
-    public Vector2 mDirection;
+   public float mDamage;
+   public Vector2 mDirection;
+   public int mDamageMultiplierFactor;
 }

@@ -90,6 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mDamage: 20000
   mDirection: {x: 0, y: 0}
+  mDamageMultiplierFactor: 10
 --- !u!114 &114648647371779686
 MonoBehaviour:
   m_ObjectHideFlags: 1
