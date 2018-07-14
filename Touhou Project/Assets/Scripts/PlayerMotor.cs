@@ -124,5 +124,14 @@ public class PlayerMotor : MonoBehaviour
 
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
         }
+        else if (col.tag == "SpecialAttack")
+        {
+            mDamageMultiplier += .02f;
+
+            Debug.Log("Hit " + col.GetComponent<HitboxContents>().mDamage);
+            mRigidBody2D.AddForce(col.GetComponent<HitboxContents>().mDirection* col.GetComponent<HitboxContents>().mDamage * mDamageMultiplier);
+            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
+
+        }
     }
 }

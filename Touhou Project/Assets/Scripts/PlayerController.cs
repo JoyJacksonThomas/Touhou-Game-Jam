@@ -17,11 +17,11 @@ public class PlayerController : MonoBehaviour
         mPlayerAnimator = GetComponent<Animator>();
         if (name == "Player1")
         {
-            mPlayerIndex = 1;
+            mPlayerIndex = 0;
         }
         else if (name == "Player2")
         {
-            mPlayerIndex = 0;
+            mPlayerIndex = 1;
         }
     }
 

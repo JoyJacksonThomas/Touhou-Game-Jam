@@ -48,6 +48,7 @@ public class SmashBrosCam : MonoBehaviour
          {
             mTargets[i].position = Vector3.zero;
             mTargets[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+                mTargets[i].GetComponent<PlayerMotor>().mDamageMultiplier = 0;
          }
       }
    }

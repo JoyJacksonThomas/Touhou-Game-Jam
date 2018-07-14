@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Star : MonoBehaviour {
+public class Projectile : MonoBehaviour {
 
     private Vector2 mDirection = Vector2.zero;
     private Rigidbody2D mRigidbody2D;

@@ -12,6 +12,8 @@ public class ReimuInput : MonoBehaviour
     GameObject currentAttackCollider;
     public GameObject[] hitBoxArray;
 
+    public GameObject mNeedlePrefab;
+
 
     // Use this for initialization
     void Start()
@@ -38,13 +40,17 @@ public class ReimuInput : MonoBehaviour
                     mAnimator.SetTrigger("NeutralAttack");
 
                 }
-                else if (directionX > 0.9 || directionX < -0.9)
+                else if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideAttack");
                 }
-                else if (directionY < 0.9)
+                else if (directionY < -0.5)
                 {
                     mAnimator.SetTrigger("DownAttack");
+                }
+                else if (directionY > 0.5)
+                {
+                    mAnimator.SetTrigger("UpAttack");
                 }
                 else
                 {
@@ -60,13 +66,17 @@ public class ReimuInput : MonoBehaviour
                     mAnimator.SetTrigger("NeutralSpecial");
 
                 }
-                else if (directionX > 0.9 || directionX < -0.9)
+                else if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideSpecial");
                 }
-                else if (directionY < 0.9)
+                else if (directionY < -0.5)
                 {
                     mAnimator.SetTrigger("DownSpecial");
+                }
+                else if (directionY > 0.5)
+                {
+                    mAnimator.SetTrigger("UpSpecial");
                 }
                 else
                 {
@@ -85,6 +95,25 @@ public class ReimuInput : MonoBehaviour
     {
         currentAttackCollider = (GameObject)Instantiate(hitBoxArray[index], gameObject.transform);
         Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), currentAttackCollider.GetComponent<Collider2D>());
+    }
+
+    public void NeedleBlast()
+    {
+        GameObject needle = (GameObject)Instantiate(mNeedlePrefab, gameObject.transform.position, Quaternion.identity);
+        if (gameObject.GetComponent<PlayerMotor>().mFacingRight)
+        {
+
+            needle.GetComponent<SpriteRenderer>().flipX = true;
+            needle.GetComponent<Projectile>().SetDirection(1,0);
+        }
+        else
+        {
+            
+            needle.GetComponent<Projectile>().SetDirection(-1, 0);
+        }
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), needle.GetComponent<Collider2D>());
+        
+
     }
 
     public void DestroyAttackCollider()

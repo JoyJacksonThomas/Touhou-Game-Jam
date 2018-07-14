@@ -33,19 +33,23 @@ public class MarisaInput : MonoBehaviour
             if (attack)
             {
                 mPlayerAttacking = true;
-                
+
                 if (directionX == 0 && directionY == 0)
                 {
                     mAnimator.SetTrigger("NeutralAttack");
 
                 }
-                else if (directionX > 0.9 || directionX < -0.9)
+                else if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideAttack");
                 }
-                else if (directionY < 0.9)
+                else if (directionY < -0.5)
                 {
                     mAnimator.SetTrigger("DownAttack");
+                }
+                else if (directionY > 0.5)
+                {
+                    mAnimator.SetTrigger("UpAttack");
                 }
                 else
                 {
@@ -55,19 +59,23 @@ public class MarisaInput : MonoBehaviour
             if (special)
             {
                 mPlayerAttacking = true;
-                
+
                 if (directionX == 0 && directionY == 0)
                 {
                     mAnimator.SetTrigger("NeutralSpecial");
 
                 }
-                else if (directionX > 0.9 || directionX < -0.9)
+                else if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideSpecial");
                 }
-                else if (directionY < 0.9)
+                else if (directionY < -0.5)
                 {
                     mAnimator.SetTrigger("DownSpecial");
+                }
+                else if (directionY  > 0.5)
+                {
+                    mAnimator.SetTrigger("UpSpecial");
                 }
                 else
                 {
@@ -95,11 +103,14 @@ public class MarisaInput : MonoBehaviour
 
     public void StarBlast()
     {
-        Vector2[] direction = { new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1)};
-        for(int i = 0; i < 4; i++)
+        Vector2[] direction = { new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0), new Vector2(0, -1) };
+        for (int i = 0; i < 4; i++)
         {
             GameObject star = Instantiate(mStarPrefab, transform.position, Quaternion.identity) as GameObject;
-            star.GetComponent<Star>().SetDirection(direction[i].x, direction[i].y);
+            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), star.GetComponent<Collider2D>());
+                
         }
     }
+
+    
 }

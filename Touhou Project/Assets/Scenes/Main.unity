@@ -604,7 +604,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P1
+  m_Text: 'P2
+
+'
 --- !u!222 &565275514
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -871,6 +873,8 @@ MonoBehaviour:
   - {fileID: 1722560726830342, guid: f13cb8f31f1c9ca46aac6a0943a0e4e1, type: 2}
   - {fileID: 1014826856787902, guid: e4fa6a34b0f17464d8e8c98358f48741, type: 2}
   - {fileID: 1464411701854396, guid: 8d2645cdb7667794db42ffb2fec12821, type: 2}
+  mNeedlePrefab: {fileID: 1106244681542178, guid: 2140ee18ac45c53488d64abf3ca95253,
+    type: 2}
 --- !u!1 &1006466863
 GameObject:
   m_ObjectHideFlags: 0
