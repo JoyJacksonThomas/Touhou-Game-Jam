@@ -34,13 +34,7 @@ public class ReimuInput : MonoBehaviour
             if (attack)
             {
                 mPlayerAttacking = true;
-                Debug.Log("X:" + directionX + "Y:" + directionY);
-                if (directionX == 0 && directionY == 0)
-                {
-                    mAnimator.SetTrigger("NeutralAttack");
-
-                }
-                else if (directionX > 0.5 || directionX < -0.5)
+               if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideAttack");
                 }
@@ -54,19 +48,14 @@ public class ReimuInput : MonoBehaviour
                 }
                 else
                 {
-                    SwitchAttackBool();
+                    mAnimator.SetTrigger("NeutralAttack");
                 }
             }
             if (special)
             {
                 mPlayerAttacking = true;
                 Debug.Log("X:" + directionX + "Y:" + directionY);
-                if (directionX == 0 && directionY == 0)
-                {
-                    mAnimator.SetTrigger("NeutralSpecial");
-
-                }
-                else if (directionX > 0.5 || directionX < -0.5)
+               if (directionX > 0.5 || directionX < -0.5)
                 {
                     mAnimator.SetTrigger("SideSpecial");
                 }
@@ -80,7 +69,7 @@ public class ReimuInput : MonoBehaviour
                 }
                 else
                 {
-                    SwitchAttackBool();
+                    mAnimator.SetTrigger("NeutralSpecial");
                 }
             }
         }
