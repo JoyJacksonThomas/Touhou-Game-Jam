@@ -6,17 +6,21 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: mDamage
+      value: 2500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
+  m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1714671556067812}
-  m_IsPrefabAsset: 1
+  m_IsPrefabParent: 0
 --- !u!1 &1448825486738300
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4149496889555580}
   - component: {fileID: 198692137617791832}
@@ -31,9 +35,9 @@ GameObject:
 --- !u!1 &1714671556067812
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4814468808034454}
   - component: {fileID: 212829897766599704}
@@ -52,7 +56,7 @@ GameObject:
 --- !u!4 &4149496889555580
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1448825486738300}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
@@ -65,7 +69,7 @@ Transform:
 --- !u!4 &4814468808034454
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -80,7 +84,7 @@ Transform:
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_BodyType: 1
@@ -99,7 +103,7 @@ Rigidbody2D:
 --- !u!61 &61187588079939454
 BoxCollider2D:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_Enabled: 1
@@ -125,7 +129,7 @@ BoxCollider2D:
 TrailRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_Enabled: 1
@@ -221,11 +225,10 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
-  m_Emitting: 1
 --- !u!114 &114675945155285844
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_Enabled: 1
@@ -233,13 +236,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258e1fc2865a9b749b01e748e76dcc2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mDamage: 2000
+  mDamage: 2500
   mDirection: {x: 1, y: 1}
   mDamageMultiplierFactor: 10
 --- !u!114 &114787116526681378
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_Enabled: 1
@@ -252,7 +255,7 @@ MonoBehaviour:
 --- !u!198 &198692137617791832
 ParticleSystem:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1448825486738300}
   serializedVersion: 5
@@ -887,8 +890,6 @@ ParticleSystem:
     m_Mesh: {fileID: 0}
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
-    m_Sprite: {fileID: 0}
-    m_SpriteRenderer: {fileID: 0}
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
@@ -4784,9 +4785,9 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &199036049291475096
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 5
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1448825486738300}
   m_Enabled: 1
@@ -4832,7 +4833,6 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
@@ -4842,7 +4842,7 @@ ParticleSystemRenderer:
 --- !u!212 &212829897766599704
 SpriteRenderer:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714671556067812}
   m_Enabled: 1
@@ -4884,4 +4884,3 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0

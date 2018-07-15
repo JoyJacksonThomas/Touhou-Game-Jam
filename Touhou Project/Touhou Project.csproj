@@ -315,7 +315,6 @@
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\ReimuInput.cs" />
     <Compile Include="Assets\Scripts\SmashBrosCam.cs" />
-    <Compile Include="Assets\Scripts\StarParticle.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
