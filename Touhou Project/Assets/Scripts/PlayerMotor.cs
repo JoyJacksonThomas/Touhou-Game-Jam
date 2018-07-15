@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerMotor : MonoBehaviour
 {
+   public AudioClip mAttackAudio;
+
    private Rigidbody2D mRigidBody2D;
    private Animator mPlayerAnimator;
 
@@ -128,7 +130,8 @@ public class PlayerMotor : MonoBehaviour
          {
             mRigidBody2D.AddForce(new Vector2(-(col.GetComponent<HitboxContents>().mDirection.x), col.GetComponent<HitboxContents>().mDirection.y) * col.GetComponent<HitboxContents>().mDamage * (mDamageMultiplier / 100f));
          }
-
+         GameObject.Find("SoundEffects").GetComponent<AudioSource>().clip = mAttackAudio;
+         GameObject.Find("SoundEffects").GetComponent<AudioSource>().Play(0);
          Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), col.GetComponent<Collider2D>());
       }
       else if (col.tag == "SpecialAttack")

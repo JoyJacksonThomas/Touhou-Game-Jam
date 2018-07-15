@@ -310,6 +310,7 @@
     <Compile Include="Assets\Scripts\MarisaSpecials\DestroyGameObject.cs" />
     <Compile Include="Assets\Scripts\MarisaSpecials\Explosion.cs" />
     <Compile Include="Assets\Scripts\MarisaSpecials\LandMine.cs" />
+    <Compile Include="Assets\Scripts\MusicLooper.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerMotor.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />

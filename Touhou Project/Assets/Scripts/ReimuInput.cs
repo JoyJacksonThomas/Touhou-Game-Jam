@@ -26,6 +26,8 @@ public class ReimuInput : MonoBehaviour
    public bool mDownSpecialUsed = false;
    public bool mUpSpecialUsed = false;
 
+
+   public GameObject mSealAnim;
    // Use this for initialization
    void Start()
    {
@@ -72,24 +74,32 @@ public class ReimuInput : MonoBehaviour
                mPlayerAttacking = true;
                mAnimator.SetTrigger("SideSpecial");
                mSideSpecialUsed = true;
+
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
             else if (directionY < -0.5 && !mDownSpecialUsed)
             {
                mPlayerAttacking = true;
                mAnimator.SetTrigger("DownSpecial");
                mDownSpecialUsed = true;
+
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
             else if (directionY > 0.5 && !mUpSpecialUsed)
             {
                mPlayerAttacking = true;
                mAnimator.SetTrigger("UpSpecial");
                mUpSpecialUsed = true;
+
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
             else if (!mNeutralSpecialUsed)
             {
                mPlayerAttacking = true;
                mAnimator.SetTrigger("NeutralSpecial");
                mNeutralSpecialUsed = true;
+
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
          }
       }

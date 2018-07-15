@@ -5,6 +5,9 @@ using UnityEngine.Animations;
 
 public class MarisaInput : MonoBehaviour
 {
+   public AudioClip mLaserAudio;
+   public AudioClip mExplosionAudio;
+
    private Rigidbody2D mRigidBody2D;
 
    public bool mPlayerAttacking = false;
@@ -26,6 +29,8 @@ public class MarisaInput : MonoBehaviour
    public bool mSideSpecialUsed = false;
    public bool mDownSpecialUsed = false;
    public bool mUpSpecialUsed = false;
+
+   public GameObject mSealAnim;
 
    // Use this for initialization
    void Start()
@@ -74,6 +79,7 @@ public class MarisaInput : MonoBehaviour
                mPlayerAttacking = true;
                mAnimator.SetTrigger("SideSpecial");
                mSideSpecialUsed = true;
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
             else if (directionY < -0.5 && !mDownSpecialUsed)
             {
@@ -89,6 +95,9 @@ public class MarisaInput : MonoBehaviour
                   mLandMinePlanted = false;
                   mPlayerAttacking = false;
                   mDownSpecialUsed = true;
+                  GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
+                  GameObject.Find("SoundEffects").GetComponent<AudioSource>().clip = mExplosionAudio;
+                  GameObject.Find("SoundEffects").GetComponent<AudioSource>().Play();
                }
             }
             else if (directionY > 0.5 && !mUpSpecialUsed)
@@ -96,12 +105,14 @@ public class MarisaInput : MonoBehaviour
                mPlayerAttacking = true;
                mAnimator.SetTrigger("UpSpecial");
                mUpSpecialUsed = true;
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
             else if(!mNeutralSpecialUsed)
             {
                mPlayerAttacking = true;
                mAnimator.SetTrigger("NeutralSpecial");
                mNeutralSpecialUsed = true;
+               GameObject temp = (GameObject)Instantiate(mSealAnim, transform);
             }
          }
       }
@@ -138,6 +149,7 @@ public class MarisaInput : MonoBehaviour
    public void MiniMasterSpark()
    {
       GameObject laser = (GameObject)Instantiate(mLaserPrefab, gameObject.transform.position, Quaternion.identity);
+      
       if (gameObject.GetComponent<PlayerMotor>().mFacingRight)
       {
 
