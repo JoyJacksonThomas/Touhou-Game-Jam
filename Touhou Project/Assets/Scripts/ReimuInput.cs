@@ -21,8 +21,13 @@ public class ReimuInput : MonoBehaviour
 
     public float mRecoveryForce = 0;
 
-    // Use this for initialization
-    void Start()
+   public bool mNeutralSpecialUsed = false;
+   public bool mSideSpecialUsed = false;
+   public bool mDownSpecialUsed = false;
+   public bool mUpSpecialUsed = false;
+
+   // Use this for initialization
+   void Start()
    {
       mAnimator = GetComponent<Animator>();
         mRigidBody2D = GetComponent<Rigidbody2D>();
@@ -60,23 +65,31 @@ public class ReimuInput : MonoBehaviour
          }
          if (special)
          {
-            mPlayerAttacking = true;
+            
             Debug.Log("X:" + directionX + "Y:" + directionY);
-            if (directionX > 0.5 || directionX < -0.5)
+            if ((directionX > 0.5 || directionX < -0.5) && !mSideSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("SideSpecial");
+               mSideSpecialUsed = true;
             }
-            else if (directionY < -0.5)
+            else if (directionY < -0.5 && !mDownSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("DownSpecial");
+               mDownSpecialUsed = true;
             }
-            else if (directionY > 0.5)
+            else if (directionY > 0.5 && !mUpSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("UpSpecial");
+               mUpSpecialUsed = true;
             }
-            else
+            else if (!mNeutralSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("NeutralSpecial");
+               mNeutralSpecialUsed = true;
             }
          }
       }
@@ -85,6 +98,7 @@ public class ReimuInput : MonoBehaviour
    public void SwitchAttackBool()
    {
       mPlayerAttacking = false;
+      GetComponent<PlayerMotor>().mCanMove = true;
    }
 
    public void SpawnAttackCollider(int index)

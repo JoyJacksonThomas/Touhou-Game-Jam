@@ -315,6 +315,8 @@
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\ReimuInput.cs" />
     <Compile Include="Assets\Scripts\SmashBrosCam.cs" />
+    <Compile Include="Assets\Scripts\StarParticle.cs" />
+    <Compile Include="Assets\Scripts\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\361rj\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.9.11\Editor\Resources\Styles\Main_Dark.uss" />

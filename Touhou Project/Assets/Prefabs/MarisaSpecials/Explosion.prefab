@@ -88,9 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258e1fc2865a9b749b01e748e76dcc2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mDamage: 20000
+  mDamage: 5000
   mDirection: {x: 0, y: 0}
-  mDamageMultiplierFactor: 10
+  mDamageMultiplierFactor: 30
 --- !u!114 &114648647371779686
 MonoBehaviour:
   m_ObjectHideFlags: 1

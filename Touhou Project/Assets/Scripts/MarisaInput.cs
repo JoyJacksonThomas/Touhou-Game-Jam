@@ -22,6 +22,11 @@ public class MarisaInput : MonoBehaviour
 
    public float mRecoveryForce = 0;
 
+   public bool mNeutralSpecialUsed = false;
+   public bool mSideSpecialUsed = false;
+   public bool mDownSpecialUsed = false;
+   public bool mUpSpecialUsed = false;
+
    // Use this for initialization
    void Start()
    {
@@ -62,32 +67,41 @@ public class MarisaInput : MonoBehaviour
          }
          if (special)
          {
-            mPlayerAttacking = true;
+            
 
-            if (directionX > 0.5 || directionX < -0.5)
+            if ((directionX > 0.5 || directionX < -0.5) && !mSideSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("SideSpecial");
+               mSideSpecialUsed = true;
             }
-            else if (directionY < -0.5)
+            else if (directionY < -0.5 && !mDownSpecialUsed)
             {
                if (mLandMinePlanted == false)
                {
+                  mPlayerAttacking = true;
                   mAnimator.SetTrigger("DownSpecial");
                }
                else
                {
+                  mPlayerAttacking = true;
                   mLandMine.Detonate();
                   mLandMinePlanted = false;
                   mPlayerAttacking = false;
+                  mDownSpecialUsed = true;
                }
             }
-            else if (directionY > 0.5)
+            else if (directionY > 0.5 && !mUpSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("UpSpecial");
+               mUpSpecialUsed = true;
             }
-            else
+            else if(!mNeutralSpecialUsed)
             {
+               mPlayerAttacking = true;
                mAnimator.SetTrigger("NeutralSpecial");
+               mNeutralSpecialUsed = true;
             }
          }
       }
@@ -96,6 +110,7 @@ public class MarisaInput : MonoBehaviour
    public void SwitchAttackBool()
    {
       mPlayerAttacking = false;
+      GetComponent<PlayerMotor>().mCanMove = true;
    }
 
    public void SpawnAttackCollider(int index)
@@ -129,12 +144,14 @@ public class MarisaInput : MonoBehaviour
          laser.GetComponent<SpriteRenderer>().flipX = true;
          laser.GetComponent<Projectile>().SetDirection(1, 0);
          gameObject.GetComponent<Rigidbody2D>().velocity.Set(gameObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+         laser.transform.GetChild(0).eulerAngles = new Vector3(0, -90, 0);
       }
       else
       {
 
          laser.GetComponent<Projectile>().SetDirection(-1, 0);
          gameObject.GetComponent<Rigidbody2D>().velocity.Set(gameObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+         laser.transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
       }
       Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), laser.GetComponent<Collider2D>());
    }
