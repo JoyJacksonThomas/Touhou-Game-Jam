@@ -1,0 +1,5 @@
+﻿  pch.cpp
+  dllmain.cpp
+  NetworkWrapper.cpp
+  Generating Code...
+C:\Users\361rj\OneDrive\Desktop\Touhou-Game-Jam\NetworkingPlugin\NetworkingPlugin\NetworkWrapper.cpp(28,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
