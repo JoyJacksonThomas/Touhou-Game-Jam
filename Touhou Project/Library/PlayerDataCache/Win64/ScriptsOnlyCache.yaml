@@ -92,9 +92,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11474}
     - Class: 114
-      Script: {instanceID: 11924}
+      Script: {instanceID: 11926}
     - Class: 114
-      Script: {instanceID: 11940}
+      Script: {instanceID: 11942}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -332,7 +332,7 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: 3ff8e9db6083263f04f930bcddaa0c39
+      Hash: 5437fd509d5d72e3064af18b50a5a60a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: NetworkPlugin
@@ -410,7 +410,7 @@ ScriptsOnlyBuild:
     className: ScrollRect
   - hash:
       serializedVersion: 2
-      Hash: 252665a06cceec9f1b3d981dfc456965
+      Hash: e932f85d846b83a175963c9b34b3ec56
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CursorScript
@@ -590,7 +590,7 @@ ScriptsOnlyBuild:
     className: GraphicRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: a8ce3bc0135afb5f09182179107e8bbd
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIManager
@@ -606,6 +606,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DestroyGameObject
+  - hash:
+      serializedVersion: 2
+      Hash: f19e8a9ffd1fb73e8bc66b399df222d8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameManagerScript
   - hash:
       serializedVersion: 2
       Hash: 1dcb82730d983b77cec736c6ef19f814

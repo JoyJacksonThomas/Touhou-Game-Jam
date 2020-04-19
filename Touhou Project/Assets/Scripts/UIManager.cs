@@ -15,16 +15,56 @@ public class UIManager : MonoBehaviour {
 		
 	}
 
-   public void Play()
+    [SerializeField]
+    GameObject startPanel;
+    [SerializeField]
+    GameObject networkPanel;
+    [SerializeField]
+    GameObject characterPanel;
+    [SerializeField]
+    GameObject cursorPrefab;
+
+    public void Play()
    {
       Debug.Log("Play");
-      SceneManager.LoadScene("Main");
+      startPanel.SetActive(false);
+      networkPanel.SetActive(true);
+
+     // SceneManager.LoadScene("Main");
    }
 
-   public void Exit()
+    public void CharacterSelectStart()
+    {
+        Debug.Log("Online");
+        networkPanel.SetActive(false);
+        characterPanel.SetActive(true);
+
+    }
+    public void BackButton()
+    {
+        networkPanel.SetActive(false);
+        startPanel.SetActive(true);
+    }
+
+    public void Exit()
    {
       Debug.Log("Quit");
       Application.Quit();
    }
+
+    public void PlayerSelectButton(int id)
+    {
+        GameManagerScript.Instance.SelectCharacter(id, GameManagerScript.Instance.playerID);
+    }
+
+    public void OnlineGame(bool isNetworked)
+    {
+        GameManagerScript.Instance.isNetworked = isNetworked;
+        if(!isNetworked)
+        {
+        GameObject player2 = (GameObject)Instantiate(cursorPrefab, characterPanel.transform);
+        player2.GetComponent<CursorScript>().isClient = true;
+        }
+    }
    
 }

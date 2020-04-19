@@ -16,12 +16,13 @@ public class NetworkPlugin : MonoBehaviour
 
    public enum InputIDs
     {
-        RIGHT_ARROW = 0,
-        LEFT_ARROW,
-        DOWN_ARROW,
-        UP_ARROW,
-        ENTER,
-        NEUTRAL,
+        
+        ESCAPE = 0,
+        HORIZONTAL,
+        VERTICAL,
+        JUMP,
+        PAUSE,        
+        ATTACK,
         SPECIAL,
         COUNT
 
@@ -29,13 +30,13 @@ public class NetworkPlugin : MonoBehaviour
 
 
     public const int INPUT_IDS_COUNT = (int)InputIDs.COUNT;
-    int[] inputIdentifier = { (int)KeyCode.RightArrow,
-    (int)KeyCode.LeftArrow,
-    (int)KeyCode.DownArrow,
-    (int)KeyCode.UpArrow,
-    (int)KeyCode.Return,
-    (int)KeyCode.Z,
-    (int)KeyCode.X};
+    string[] inputIdentifier = { "Escape",
+    "Horizontal",
+    "Vertical",
+    "Jump",
+    "Pause",
+    "Attack",
+    "Special"};
 
 
     [DllImport("NetworkingPlugin")]
@@ -59,12 +60,16 @@ public class NetworkPlugin : MonoBehaviour
 
     [SerializeField] Text output;
     [SerializeField] GameObject startupPanel;
+    [SerializeField] GameObject cursorPanelParent;
     [SerializeField] GameObject cursorPrefab;
 
     public bool userConnected = false;
     public int userIdentifier = -1;
 
     [SerializeField] Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
+
+
+    string[] prefix = { "P1 ", "P2 " };
 
     public static NetworkPlugin Instance = null;
     private void Start()
@@ -109,7 +114,7 @@ public class NetworkPlugin : MonoBehaviour
             bool sendMessage = false;
             for (int i = 0; i < INPUT_IDS_COUNT; i++)
             {
-                if (Input.GetKeyDown((KeyCode)inputIdentifier[i]))
+                if (Mathf.Abs((int)Input.GetAxisRaw(prefix[userIdentifier] + inputIdentifier[i])) == 1)
                 { sendMessage = true; break; }
 
             }
@@ -122,7 +127,7 @@ public class NetworkPlugin : MonoBehaviour
             positionMessage.inputStates = new int[INPUT_IDS_COUNT];
             for (int i = 0; i < INPUT_IDS_COUNT; i++)
             {
-                positionMessage.inputStates[i] = Input.GetKeyDown((KeyCode)inputIdentifier[i]) ? 1 : 0;
+                positionMessage.inputStates[i] = (int)Input.GetAxisRaw(prefix[userIdentifier]+ inputIdentifier[i]);
             }
             outputMessages.Add(positionMessage);
             //positionMessage
@@ -158,7 +163,7 @@ public class NetworkPlugin : MonoBehaviour
                             Debug.Log("User : " + newMessage.playerID);
                             newMessage.inputStates = new int[INPUT_IDS_COUNT];                            
                             outputMessages.Add(newMessage);
-                            GameObject player2 = (GameObject)Instantiate(cursorPrefab, startupPanel.transform.parent);
+                            GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                             player2.GetComponent<CursorScript>().isClient = true;
 
                             Players.Add(1, player2);
@@ -177,7 +182,7 @@ public class NetworkPlugin : MonoBehaviour
                     {
                         Debug.Log("Client Connected");
                         output.text = "Client Connected";
-                        GameObject player2 = (GameObject)Instantiate(cursorPrefab, startupPanel.transform.parent);
+                        GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                         player2.GetComponent<CursorScript>().isClient = true;
 
                         Players.Add(0, player2);
@@ -190,7 +195,7 @@ public class NetworkPlugin : MonoBehaviour
                         if(!Players.ContainsKey(0))
                         {
 
-                        GameObject player2 = (GameObject)Instantiate(cursorPrefab, startupPanel.transform.parent);
+                        GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                         player2.GetComponent<CursorScript>().isClient = true;
 
                         Players.Add(0, player2);
@@ -210,15 +215,9 @@ public class NetworkPlugin : MonoBehaviour
 
                         GameObject pl = Players[messagesArray[i].playerID];
 
-                        Vector2 pos = pl.transform.position;
-                        if (messagesArray[i].inputStates[(int)InputIDs.RIGHT_ARROW] == 1)
-                            pos.x += 20;
-                        if (messagesArray[i].inputStates[(int)InputIDs.LEFT_ARROW] == 1)
-                            pos.x -= 20;
-                        if (messagesArray[i].inputStates[(int)InputIDs.UP_ARROW] == 1)
-                            pos.y += 20;
-                        if (messagesArray[i].inputStates[(int)InputIDs.DOWN_ARROW] == 1)
-                            pos.y -= 20;
+                        Vector2 pos = pl.transform.position;                        
+                            pos.x += (20* messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
+                            pos.y += (20 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
 
                         pl.transform.position = pos;
                     }

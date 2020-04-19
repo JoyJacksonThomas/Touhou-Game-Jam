@@ -5,6 +5,7 @@ using UnityEngine;
 public class CursorScript : MonoBehaviour
 {
     public bool isClient;
+    public int playerID;
 
 
     // Update is called once per frame
@@ -14,13 +15,13 @@ public class CursorScript : MonoBehaviour
             return;
 
         Vector2 pos = transform.position;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
             pos.x += 20;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
             pos.x -= 20;
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
             pos.y += 20;
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
             pos.y -= 20;
 
        transform.position = pos;
