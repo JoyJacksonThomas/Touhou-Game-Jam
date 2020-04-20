@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CharacterSelectImageScript.cs" />
     <Compile Include="Assets\CursorScript.cs" />
     <Compile Include="Assets\GameManagerScript.cs" />
     <Compile Include="Assets\NetworkPlugin.cs" />

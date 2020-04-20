@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour {
         if(!isNetworked)
         {
         GameObject player2 = (GameObject)Instantiate(cursorPrefab, characterPanel.transform);
-        player2.GetComponent<CursorScript>().isClient = true;
+        player2.GetComponent<CursorScript>().playerID = 1;
         }
     }
    

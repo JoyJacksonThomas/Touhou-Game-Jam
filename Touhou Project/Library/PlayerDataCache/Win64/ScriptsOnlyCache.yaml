@@ -2,7 +2,9 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CursorScript
+    - GameManagerScript
     - NetworkPlugin
+    - UIManager
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -32,7 +34,7 @@ ScriptsOnlyBuild:
     - UnityEngine.Networking.NetworkCallbacks
     - UnityEngine.Networking.NetworkIdentity
   sceneClasses:
-    Assets/Scenes/NetworkTestScene.unity:
+    Assets/Scenes/Menu.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -54,6 +56,10 @@ ScriptsOnlyBuild:
     - Class: 65
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -91,6 +97,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11296}
     - Class: 114
       Script: {instanceID: 11474}
+    - Class: 114
+      Script: {instanceID: 11480}
+    - Class: 114
+      Script: {instanceID: 11578}
     - Class: 114
       Script: {instanceID: 11926}
     - Class: 114
@@ -752,5 +762,5 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 19
   scenePathNames:
-  - Assets/Scenes/NetworkTestScene.unity
+  - Assets/Scenes/Menu.unity
   playerPath: C:/Users/361rj/OneDrive/Desktop/UnityNEtworkTest/Sealed Sorcery.exe

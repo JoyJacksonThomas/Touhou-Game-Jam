@@ -69,8 +69,6 @@ public class NetworkPlugin : MonoBehaviour
     [SerializeField] Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
 
 
-    string[] prefix = { "P1 ", "P2 " };
-
     public static NetworkPlugin Instance = null;
     private void Start()
     {
@@ -114,7 +112,7 @@ public class NetworkPlugin : MonoBehaviour
             bool sendMessage = false;
             for (int i = 0; i < INPUT_IDS_COUNT; i++)
             {
-                if (Mathf.Abs((int)Input.GetAxisRaw(prefix[userIdentifier] + inputIdentifier[i])) == 1)
+                if (Mathf.Abs((int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i])) == 1)
                 { sendMessage = true; break; }
 
             }
@@ -127,7 +125,7 @@ public class NetworkPlugin : MonoBehaviour
             positionMessage.inputStates = new int[INPUT_IDS_COUNT];
             for (int i = 0; i < INPUT_IDS_COUNT; i++)
             {
-                positionMessage.inputStates[i] = (int)Input.GetAxisRaw(prefix[userIdentifier]+ inputIdentifier[i]);
+                positionMessage.inputStates[i] = (int)Input.GetAxisRaw(PlayerController.prefix[0]+ inputIdentifier[i]);
             }
             outputMessages.Add(positionMessage);
             //positionMessage
@@ -216,8 +214,8 @@ public class NetworkPlugin : MonoBehaviour
                         GameObject pl = Players[messagesArray[i].playerID];
 
                         Vector2 pos = pl.transform.position;                        
-                            pos.x += (20* messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
-                            pos.y += (20 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
+                            pos.x += (2* messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
+                            pos.y += (2 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
 
                         pl.transform.position = pos;
                     }

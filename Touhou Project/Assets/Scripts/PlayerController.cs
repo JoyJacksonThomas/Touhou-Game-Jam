@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
    int mPlayerIndex;
 
-   string[] prefix = { "P1 ", "P2 " };
+   public static string[] prefix = { "P1 ", "P2 " };
    private Animator mPlayerAnimator;
    private PlayerMotor mPlayerMotor;
 
