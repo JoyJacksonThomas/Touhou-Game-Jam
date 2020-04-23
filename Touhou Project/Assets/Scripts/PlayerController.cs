@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-   int mPlayerIndex;
+  public int mPlayerIndex;
 
    public static string[] prefix = { "P1 ", "P2 " };
    private Animator mPlayerAnimator;
@@ -21,14 +21,7 @@ public class PlayerController : MonoBehaviour
       mPlayerAnimator = GetComponent<Animator>();
       
 
-      if (name == "Player1")
-      {
-         mPlayerIndex = 0;
-      }
-      else if (name == "Player2")
-      {
-         mPlayerIndex = 1;
-      }
+     
    }
 
    void Update()

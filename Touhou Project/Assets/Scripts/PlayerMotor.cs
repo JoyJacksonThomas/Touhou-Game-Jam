@@ -33,11 +33,13 @@ public class PlayerMotor : MonoBehaviour
    {
       mRigidBody2D = GetComponent<Rigidbody2D>();
       mPlayerAnimator = GetComponent<Animator>();
-      if (gameObject.name == "Player1")
+       PlayerController pc= GetComponent<PlayerController>();
+
+      if (pc.mPlayerIndex == 0)
       {
          mHealthCounter = GameObject.Find("P1Health/Health").GetComponentInChildren<Text>();
       }
-      else if (gameObject.name == "Player2")
+      else if (pc.mPlayerIndex == 1)
       {
          mHealthCounter = GameObject.Find("P2Health/Health").GetComponentInChildren<Text>();
       }

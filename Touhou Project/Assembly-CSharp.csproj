@@ -68,6 +68,7 @@
     <Compile Include="Assets\GameManagerScript.cs" />
     <Compile Include="Assets\NetworkPlugin.cs" />
     <Compile Include="Assets\Scripts\HitboxContents.cs" />
+    <Compile Include="Assets\Scripts\InputMain.cs" />
     <Compile Include="Assets\Scripts\MarisaInput.cs" />
     <Compile Include="Assets\Scripts\MarisaSpecials\DestroyGameObject.cs" />
     <Compile Include="Assets\Scripts\MarisaSpecials\Explosion.cs" />

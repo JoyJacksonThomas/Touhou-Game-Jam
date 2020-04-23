@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class MarisaInput : MonoBehaviour
+public class MarisaInput : InputMain
 {
    public AudioClip mLaserAudio;
    public AudioClip mExplosionAudio;
@@ -45,7 +45,15 @@ public class MarisaInput : MonoBehaviour
       GetComponent<PlayerMotor>().mCanMove = !mPlayerAttacking;
    }
 
-   public void Attack(bool attack, bool special, float directionX, float directionY)
+    public override void ResetInputs()
+    {
+        mDownSpecialUsed = false;
+        mUpSpecialUsed = false;
+        mSideSpecialUsed = false;
+        mNeutralSpecialUsed = false;
+    }
+
+    public void Attack(bool attack, bool special, float directionX, float directionY)
    {
       if (!mPlayerAttacking)
       {

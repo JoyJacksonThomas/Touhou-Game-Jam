@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class ReimuInput : MonoBehaviour
+public class ReimuInput : InputMain
 {
     private Rigidbody2D mRigidBody2D;
 
@@ -35,8 +35,16 @@ public class ReimuInput : MonoBehaviour
         mRigidBody2D = GetComponent<Rigidbody2D>();
     }
 
-   // Update is called once per frame
-   void LateUpdate()
+   public override void ResetInputs()
+    {
+        mDownSpecialUsed = false;
+        mUpSpecialUsed = false;
+        mSideSpecialUsed = false;
+        mNeutralSpecialUsed = false;
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
    {
       GetComponent<PlayerMotor>().mCanMove = !mPlayerAttacking;
    }

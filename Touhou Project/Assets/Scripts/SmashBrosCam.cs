@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SmashBrosCam : MonoBehaviour
 {
 
-   public List<Transform> mTargets;
+    public List<Transform> mTargets;
 
    public Vector3 mOffset;
 
@@ -32,14 +32,36 @@ public class SmashBrosCam : MonoBehaviour
 
    void Start()
    {
-      mPlayerScoreText = GameObject.Find("PlayerScoreText").GetComponent<Text>();
-      mPlayerScoreText.gameObject.SetActive(false);
-      mCountdownText = GameObject.Find("Countdown").GetComponent<Text>();
-      StartCoroutine(Countdown());
-      PauseText = GameObject.Find("Pause").GetComponent<Text>();
-      PauseText.gameObject.SetActive(false);
+      //  mTargets = new List<Transform>();
+      //  InputMain[] tempL = GameObject.FindObjectsOfType<InputMain>();
+      //  foreach (InputMain go in tempL)
+      //      mTargets.Add(go.transform);
+
+      //mPlayerScoreText = GameObject.Find("PlayerScoreText").GetComponent<Text>();
+      //mPlayerScoreText.gameObject.SetActive(false);
+      //mCountdownText = GameObject.Find("Countdown").GetComponent<Text>();
+      //StartCoroutine(Countdown());
+      //PauseText = GameObject.Find("Pause").GetComponent<Text>();
+      //PauseText.gameObject.SetActive(false);
+
+
 
    }
+    public void StartUp()
+    {
+        mTargets = new List<Transform>();
+        InputMain[] tempL = GameObject.FindObjectsOfType<InputMain>();
+        foreach (InputMain go in tempL)
+            mTargets.Add(go.transform);
+
+        mPlayerScoreText = GameObject.Find("PlayerScoreText").GetComponent<Text>();
+        mPlayerScoreText.gameObject.SetActive(false);
+        mCountdownText = GameObject.Find("Countdown").GetComponent<Text>();
+        StartCoroutine(Countdown());
+        PauseText = GameObject.Find("Pause").GetComponent<Text>();
+        PauseText.gameObject.SetActive(false);
+    }
+
    IEnumerator Countdown()
    {
       mCountdownText.text = "3";
@@ -67,6 +89,8 @@ public class SmashBrosCam : MonoBehaviour
 
    void LateUpdate()
    {
+        if (mTargets == null || mTargets[0] == null)
+            return;
       Vector3 centerPoint = GetCenterPoint();
 
       centerPoint += mOffset;
@@ -96,13 +120,19 @@ public class SmashBrosCam : MonoBehaviour
 
    Vector3 GetCenterPoint()
    {
-      var bounds = new Bounds(mTargets[0].position, Vector3.zero);
-      for (int i = 0; i < mTargets.Count; i++)
-      {
-         bounds.Encapsulate(mTargets[i].position);
-      }
+        if (mTargets != null)
+        {
 
-      return bounds.center;
+            Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
+            for (int i = 0; i < mTargets.Count; i++)
+            {
+                bounds.Encapsulate(mTargets[i].position);
+            }
+
+            return bounds.center;
+        }
+        else
+            return Vector3.zero;
    }
 
    void SpawnPlayer()
@@ -120,30 +150,30 @@ public class SmashBrosCam : MonoBehaviour
 
    private void OnTriggerExit2D(Collider2D collision)
    {
-      if (collision.gameObject.name == "Player1")
-      {
-         mPlayerTwoScore++;
-         ResetPlayers();
-      }
-      else if (collision.gameObject.name == "Player2")
-      {
-         mPlayerOneScore++;
-         ResetPlayers();
-      }
+        PlayerController pc;
+        if(collision.TryGetComponent<PlayerController>(out pc))
+        {
+            if (pc.mPlayerIndex == 1)
+            {
+               mPlayerTwoScore++;
+               ResetPlayers();
+            }
+            else if (pc.mPlayerIndex == 0)
+            {
+               mPlayerOneScore++;
+               ResetPlayers();
+            }
+        }
 
    }
 
    void ResetPlayers()
    {
-      GameObject.Find("Player1").GetComponent<ReimuInput>().mDownSpecialUsed = false;
-      GameObject.Find("Player1").GetComponent<ReimuInput>().mUpSpecialUsed = false;
-      GameObject.Find("Player1").GetComponent<ReimuInput>().mSideSpecialUsed = false;
-      GameObject.Find("Player1").GetComponent<ReimuInput>().mNeutralSpecialUsed = false;
-
-      GameObject.Find("Player2").GetComponent<MarisaInput>().mDownSpecialUsed = false;
-      GameObject.Find("Player2").GetComponent<MarisaInput>().mUpSpecialUsed = false;
-      GameObject.Find("Player2").GetComponent<MarisaInput>().mSideSpecialUsed = false;
-      GameObject.Find("Player2").GetComponent<MarisaInput>().mNeutralSpecialUsed = false;
+        InputMain[] p = GameObject.FindObjectsOfType<InputMain>();
+        foreach(InputMain ipM in p)
+        {
+            ipM.ResetInputs();
+        }
 
       if(GameObject.Find("LandMine(Clone)"))
          Destroy(GameObject.Find("LandMine(Clone)"));

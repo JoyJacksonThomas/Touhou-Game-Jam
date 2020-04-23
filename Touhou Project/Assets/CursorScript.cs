@@ -42,8 +42,8 @@ public class CursorScript : MonoBehaviour
             return;
         for (int i = 0; i < characterIcons.Count; i++)
         {
-            if (CheckPos(characterIcons[i].gameObject.transform.position.x, characterIcons[i].gameObject.transform.position.y,
-                characterIcons[i].sprite.rect.width, characterIcons[i].sprite.rect.height))
+            if (CheckPos(characterIcons[i].rectTransform.position.x, characterIcons[i].rectTransform.position.y,
+                characterIcons[i].rectTransform.rect.width, characterIcons[i].rectTransform.rect.height))
             {
                 GameManagerScript.Instance.SelectCharacter(characters[i].characterID, playerID);
             }
@@ -54,10 +54,10 @@ public class CursorScript : MonoBehaviour
     bool CheckPos(float x, float y, float width, float height)
     {
         bool check;
-        check =( transform.position.x < (x + (width / 2)) &&
-            transform.position.x > (x - (width / 2)) ) &&
-            (transform.position.y < (y + (height/ 2)) &&
-            transform.position.y > (y- (height / 2)));
+        check =( transform.position.x < (x + (width / 2f)) &&
+            transform.position.x > (x - (width / 2f)) ) &&
+            (transform.position.y < (y + (height/ 2f)) &&
+            transform.position.y > (y- (height / 2f)));
         return check;
     }
 
