@@ -33,19 +33,24 @@ public class CursorScript : MonoBehaviour
         pos.y += (2 * (int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Vertical"));
 
        transform.position = pos;
-        CheckOver();
+
+        if ((int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Attack") == 1)
+        {
+            CheckOver();
+        }
+        //
     }
 
-    void CheckOver()
+    public void CheckOver()
     {
-        if ((int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Attack") != 1)
-            return;
+        
         for (int i = 0; i < characterIcons.Count; i++)
         {
             if (CheckPos(characterIcons[i].rectTransform.position.x, characterIcons[i].rectTransform.position.y,
                 characterIcons[i].rectTransform.rect.width, characterIcons[i].rectTransform.rect.height))
             {
                 GameManagerScript.Instance.SelectCharacter(characters[i].characterID, playerID);
+                GetComponent<Image>().color = Color.red;
             }
         }
     }

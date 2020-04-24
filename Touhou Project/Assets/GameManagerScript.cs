@@ -35,6 +35,7 @@ public class GameManagerScript : MonoBehaviour
 
     public void SelectCharacter(int charID, int playerID)
     {
+        Debug.Log(playerID);
         if(charID == -1 && (player0 && player1))
         {
             //Start Game
