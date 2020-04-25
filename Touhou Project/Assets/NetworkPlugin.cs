@@ -347,8 +347,8 @@ public class NetworkPlugin : MonoBehaviour
                 {
                     positionMessage.inputStates[i] = 2;
 
-                    GameObject p1 = Players[userIdentifier];
-                    p1.GetComponent<Image>().color = Color.red;
+                    //GameObject p1 = Players[userIdentifier];
+                    //p1.GetComponent<Image>().color = Color.red;
                     //p1.GetComponent<CursorScript>().CheckOver();
 
                 }

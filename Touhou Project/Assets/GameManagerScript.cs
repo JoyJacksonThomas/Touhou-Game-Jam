@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -34,9 +35,9 @@ public class GameManagerScript : MonoBehaviour
 
 
     public void SelectCharacter(int charID, int playerID)
-    {
-        Debug.Log(playerID);
-        if(charID == -1 && (player0 && player1))
+    { 
+        
+        if (charID == -1 && (player0 && player1))
         {
             //Start Game
 
@@ -51,13 +52,13 @@ public class GameManagerScript : MonoBehaviour
         if (playerID == 0)
         {
             player0 = characterPrefabs[charID];
-        Debug.Log("player " + playerID + " selected " + player0.name);
+            Debug.Log("player " + playerID + " selected " + player0.name);
             
         }
         else
         {
             player1 = characterPrefabs[charID];
-        Debug.Log("player " + playerID + " selected " + player1.name);
+            Debug.Log("player " + playerID + " selected " + player1.name);
         }
 
     }

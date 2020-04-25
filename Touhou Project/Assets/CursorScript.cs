@@ -49,8 +49,8 @@ public class CursorScript : MonoBehaviour
             if (CheckPos(characterIcons[i].rectTransform.position.x, characterIcons[i].rectTransform.position.y,
                 characterIcons[i].rectTransform.rect.width, characterIcons[i].rectTransform.rect.height))
             {
-                GameManagerScript.Instance.SelectCharacter(characters[i].characterID, playerID);
                 GetComponent<Image>().color = Color.red;
+                GameManagerScript.Instance.SelectCharacter(characters[i].characterID, playerID);
             }
         }
     }
