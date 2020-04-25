@@ -35,18 +35,19 @@ public class GameManagerScript : MonoBehaviour
 
     public void SelectCharacter(int charID, int playerID)
     {
-        Debug.Log(playerID);
-        if(charID == -1 && (player0 && player1))
+        Debug.Log(playerID + " " + charID);
+        if (charID == -1)
         {
             //Start Game
-
-            SceneManager.LoadScene("Main");
+            if((player0 && player1))
+            {
+                SceneManager.LoadScene("Main");
             //if (isNetworked)
-              //  NetworkPlugin.Instance.SendMessages(null);
+            //  NetworkPlugin.Instance.SendMessages(null);
             StartCoroutine(SpawnCharacters());
+            }
             return;
         }
-
 
         if (playerID == 0)
         {
@@ -75,10 +76,20 @@ public class GameManagerScript : MonoBehaviour
 
         GameObject p0 = (GameObject)Instantiate(player0);
         p0.GetComponent<PlayerController>().mPlayerIndex = 0;
-        p0.GetComponent<PlayerController>().mCanInput = false;
+        p0.GetComponent<PlayerController>().mCanInput = false;        
+        p0.GetComponent<PlayerController>().mClient = isNetworked && NetworkPlugin.Instance.userIdentifier == 1;
+        p0.transform.position = new Vector3(-2.5f, 0, 0);
         GameObject p1 = (GameObject)Instantiate(player1);
         p1.GetComponent<PlayerController>().mPlayerIndex = 1;
         p1.GetComponent<PlayerController>().mCanInput = false;
+        p1.GetComponent<PlayerController>().mClient = isNetworked && NetworkPlugin.Instance.userIdentifier == 0;
+        p1.transform.position = new Vector3(2.5f, 0, 0);
+        if (isNetworked)
+        {
+            NetworkPlugin.Instance.Players.Clear();
+            NetworkPlugin.Instance.Players.Add(0, p0);
+            NetworkPlugin.Instance.Players.Add(1, p1);
+        }
 
         SmashBrosCam smc = GameObject.FindObjectOfType<SmashBrosCam>();
         while (smc == null)

@@ -35,7 +35,6 @@ public class UIManager : MonoBehaviour {
 
     public void CharacterSelectStart()
     {
-        Debug.Log("Online");
         networkPanel.SetActive(false);
         characterPanel.SetActive(true);
 

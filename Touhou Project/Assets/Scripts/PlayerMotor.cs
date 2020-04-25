@@ -69,9 +69,10 @@ public class PlayerMotor : MonoBehaviour
 
    public void Move(float _direction)
    {
-      if (mCanMove && _direction != 0)
+      if (mCanMove && _direction != 0 )
       {
          mRigidBody2D.velocity = new Vector2(_direction * mSpeed, mRigidBody2D.velocity.y);
+            Debug.Log(mRigidBody2D.velocity);
          if ((_direction < 0 && mFacingRight) || (_direction > 0 && !mFacingRight))
          {
             Flip();

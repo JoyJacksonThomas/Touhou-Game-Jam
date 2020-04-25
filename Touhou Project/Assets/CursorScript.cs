@@ -7,16 +7,18 @@ public class CursorScript : MonoBehaviour
 {
     public bool isClient;
     public int playerID;
+    RectTransform rectTransform;
 
-    List<Image> characterIcons = new List<Image>();
+    List<RectTransform> characterIcons = new List<RectTransform>();
     List<CharacterSelectImageScript> characters = new List<CharacterSelectImageScript>();
 
     private void Awake()
     {
+        rectTransform = GetComponent<RectTransform>();
         CharacterSelectImageScript[] foundcharacters = GameObject.FindObjectsOfType<CharacterSelectImageScript>();
         foreach(CharacterSelectImageScript c in foundcharacters)
         {
-            characterIcons.Add(c.GetComponent<Image>());
+            characterIcons.Add(c.GetComponent<RectTransform>());
             characters.Add(c);
         }
     }
@@ -29,10 +31,10 @@ public class CursorScript : MonoBehaviour
 
         Vector2 pos = transform.position;
 
-        pos.x += (2 * (int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Horizontal"));
-        pos.y += (2 * (int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Vertical"));
+        pos.x += (0.1f * (int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Horizontal"));
+        pos.y += (0.1f * (int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Vertical"));
 
-       transform.position = pos;
+       rectTransform.position = pos;
 
         if ((int)Input.GetAxisRaw(PlayerController.prefix[GameManagerScript.Instance.isNetworked ? 0 : playerID] + "Attack") == 1)
         {
@@ -46,8 +48,9 @@ public class CursorScript : MonoBehaviour
         
         for (int i = 0; i < characterIcons.Count; i++)
         {
-            if (CheckPos(characterIcons[i].rectTransform.position.x, characterIcons[i].rectTransform.position.y,
-                characterIcons[i].rectTransform.rect.width, characterIcons[i].rectTransform.rect.height))
+            Debug.Log("Hyuck " + characterIcons[i].anchorMax.x + " " + characterIcons[i].anchorMax.y);
+            if (CheckPos(characterIcons[i].position.x, characterIcons[i].position.y,
+                characterIcons[i].anchorMax.x, characterIcons[i].anchorMax.y))
             {
                 GameManagerScript.Instance.SelectCharacter(characters[i].characterID, playerID);
                 GetComponent<Image>().color = Color.red;
@@ -59,10 +62,10 @@ public class CursorScript : MonoBehaviour
     bool CheckPos(float x, float y, float width, float height)
     {
         bool check;
-        check =( transform.position.x < (x + (width / 2f)) &&
-            transform.position.x > (x - (width / 2f)) ) &&
-            (transform.position.y < (y + (height/ 2f)) &&
-            transform.position.y > (y- (height / 2f)));
+        check =( rectTransform.position.x < (x + (width)) &&
+            rectTransform.position.x > (x - (width)) ) &&
+            (rectTransform.position.y < (y + (height)) &&
+            rectTransform.position.y > (y- (height)));
         return check;
     }
 

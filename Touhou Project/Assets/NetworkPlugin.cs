@@ -65,10 +65,10 @@ public class NetworkPlugin : MonoBehaviour
 
     public bool userConnected = false;
     public int userIdentifier = -1;
-    public float networkTimeInterval = 1f;
-    float currentTimeInterval = 0;
+   // public float networkTimeInterval = 1f;
+    //float currentTimeInterval = 0;
 
-    [SerializeField] Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
 
 
     public static NetworkPlugin Instance = null;
@@ -80,7 +80,7 @@ public class NetworkPlugin : MonoBehaviour
         }
 
         isServer = true;
-
+        DontDestroyOnLoad(this);
 
     }
 
@@ -89,7 +89,6 @@ public class NetworkPlugin : MonoBehaviour
         Debug.Log("Deleteting networking Instances..");
         try
         {
-
             ExitNetworking();
         }
         catch
@@ -144,9 +143,11 @@ public class NetworkPlugin : MonoBehaviour
                             Debug.Log("User : " + newMessage.playerID);
                             newMessage.inputStates = new int[INPUT_IDS_COUNT];
                             outputMessages.Add(newMessage);
+                            CursorScript csP1 = GameObject.FindObjectOfType<CursorScript>();
+                            csP1.playerID = 0;
                             GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                             player2.GetComponent<CursorScript>().isClient = true;
-
+                            player2.GetComponent<CursorScript>().playerID = 1;
                             Players.Add(1, player2);
                             userConnected = true;
 
@@ -163,8 +164,11 @@ public class NetworkPlugin : MonoBehaviour
                     {
                         Debug.Log("Client Connected");
                         output.text = "Client Connected";
+                        CursorScript csP1 = GameObject.FindObjectOfType<CursorScript>();
+                        csP1.playerID = 1;
                         GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                         player2.GetComponent<CursorScript>().isClient = true;
+                        player2.GetComponent<CursorScript>().playerID = 0;
 
                         Players.Add(0, player2);
                     }
@@ -175,10 +179,11 @@ public class NetworkPlugin : MonoBehaviour
                         output.text = "User Has Joined Game";
                         if (!Players.ContainsKey(0))
                         {
-
+                            CursorScript csP1 = GameObject.FindObjectOfType<CursorScript>();
+                            csP1.playerID = 1;
                             GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                             player2.GetComponent<CursorScript>().isClient = true;
-
+                            player2.GetComponent<CursorScript>().playerID = 0;
                             Players.Add(0, player2);
                         }
                         userConnected = true;
@@ -194,9 +199,9 @@ public class NetworkPlugin : MonoBehaviour
                             continue;
                         }
 
-                        GameObject pl = Players[messagesArray[i].playerID];
+                        GameObject p1 = Players[messagesArray[i].playerID];
 
-                        Vector2 pos = pl.transform.position;
+                        Vector2 pos = p1.transform.position;
                         //pos.x += (2 * messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
                         //pos.y += (2 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
 
@@ -208,19 +213,29 @@ public class NetworkPlugin : MonoBehaviour
                         if (messagesArray[i].inputStates[(int)InputIDs.ATTACK] == 2)
                         {
                             //pl.GetComponent<Image>().color = Color.red;
-                            pl.GetComponent<CursorScript>().CheckOver();
+                            CursorScript cs;
+                            p1.TryGetComponent<CursorScript>(out cs);
+                            if (cs != null)
+                                cs.CheckOver();
                         }
 
+                        //Only if the player Controller exists on gameobject
+                        PlayerController controller;
+                        p1.TryGetComponent<PlayerController>(out controller);
 
+                        if(controller != null)
+                        {
+                            controller.NetworkUpdate(messagesArray[i].inputStates);
+                        }
 
-                        pl.transform.position = pos;
+                        p1.transform.position = pos;
                     }
                     break;
 
                 default:
                     {
 
-                        //Debug.Log("Unknown Descriptor : " + messagesArray[i].MessageID);
+                        Debug.Log("Unknown Descriptor : " + messagesArray[i].MessageID);
                     }
                     break;
             }
@@ -319,7 +334,7 @@ public class NetworkPlugin : MonoBehaviour
         bool sendMessage = false;
         for (int i = 0; i < INPUT_IDS_COUNT; i++)
         {
-            if (Mathf.Abs((int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i])) == 1 && currentTimeInterval > networkTimeInterval)
+            if (Mathf.Abs((int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i])) == 1 /*&& currentTimeInterval > networkTimeInterval*/)
             { sendMessage = true; break; }
             if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]))
             { sendMessage = true; break; }
@@ -340,7 +355,7 @@ public class NetworkPlugin : MonoBehaviour
             for (int i = 0; i < INPUT_IDS_COUNT; i++)
             {
                 
-                if (currentTimeInterval > networkTimeInterval)
+               // if (currentTimeInterval > networkTimeInterval)
                     positionMessage.inputStates[i] = (int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i]);
 
                 if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]))
@@ -348,7 +363,10 @@ public class NetworkPlugin : MonoBehaviour
                     positionMessage.inputStates[i] = 2;
 
                     GameObject p1 = Players[userIdentifier];
-                    p1.GetComponent<Image>().color = Color.red;
+                    Image image;
+                    p1.TryGetComponent<Image>(out image);
+                    if(image != null)
+                        image.color = Color.red;
                     //p1.GetComponent<CursorScript>().CheckOver();
 
                 }
@@ -361,14 +379,14 @@ public class NetworkPlugin : MonoBehaviour
             outputMessages.Add(positionMessage);
         }
 
-        if (currentTimeInterval < networkTimeInterval)
+       /* if (currentTimeInterval < networkTimeInterval)
         {
             currentTimeInterval += Time.deltaTime;
         }
         else
         {
             currentTimeInterval = 0;
-        }
+        }*/
     }
 }
 

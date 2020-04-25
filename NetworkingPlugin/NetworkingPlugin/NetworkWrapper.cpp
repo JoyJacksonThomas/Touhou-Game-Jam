@@ -152,10 +152,21 @@ void ReceivePackets(int& size, Message** output)
 		break;
 		default:
 			{
+			try {
 
-			nMessage.MessageID = packet->data[0];
+				Message receivedMessage = *(Message*)(packet->data);
+				messages.push_back(receivedMessage);
+			}
+			catch (...)
+			{
+				
+				nMessage.MessageID = packet->data[0];
 
-			messages.push_back(nMessage);
+				messages.push_back(nMessage);
+			}
+			
+
+			
 			break;
 			}
 		}
