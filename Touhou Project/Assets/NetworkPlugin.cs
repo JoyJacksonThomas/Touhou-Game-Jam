@@ -11,17 +11,17 @@ public class NetworkPlugin : MonoBehaviour
     public enum MessageIDs
     {
         CONNECTED_TO_SERVER = 135,
-        MOVE_CURSOR, 
+        MOVE_CURSOR,
     }
 
-   public enum InputIDs
+    public enum InputIDs
     {
-        
+
         ESCAPE = 0,
         HORIZONTAL,
         VERTICAL,
         JUMP,
-        PAUSE,        
+        PAUSE,
         ATTACK,
         SPECIAL,
         COUNT
@@ -65,6 +65,8 @@ public class NetworkPlugin : MonoBehaviour
 
     public bool userConnected = false;
     public int userIdentifier = -1;
+    public float networkTimeInterval = 1f;
+    float currentTimeInterval = 0;
 
     [SerializeField] Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
 
@@ -72,14 +74,14 @@ public class NetworkPlugin : MonoBehaviour
     public static NetworkPlugin Instance = null;
     private void Start()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
 
         isServer = true;
-        
-        
+
+
     }
 
     private void OnDestroy()
@@ -88,11 +90,11 @@ public class NetworkPlugin : MonoBehaviour
         try
         {
 
-        ExitNetworking();
+            ExitNetworking();
         }
         catch
         {
-        Debug.LogError("Delete Failed");
+            Debug.LogError("Delete Failed");
         }
         Debug.Log("Delete Succsesful");
     }
@@ -102,51 +104,32 @@ public class NetworkPlugin : MonoBehaviour
         if (!Connected)
             return;
 
+        
+
         int size;
         IntPtr outMessages;
 
         List<ConnectionMessage> outputMessages = new List<ConnectionMessage>();
-        
+
         if (userConnected)
         {
-            bool sendMessage = false;
-            for (int i = 0; i < INPUT_IDS_COUNT; i++)
-            {
-                if (Mathf.Abs((int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i])) == 1)
-                { sendMessage = true; break; }
-
-            }
-            if(sendMessage)
-            {
-                Debug.Log("Send Input Message");
-            ConnectionMessage positionMessage = new ConnectionMessage();
-            positionMessage.MessageID = (int)MessageIDs.MOVE_CURSOR;
-            positionMessage.playerID = userIdentifier;
-            positionMessage.inputStates = new int[INPUT_IDS_COUNT];
-            for (int i = 0; i < INPUT_IDS_COUNT; i++)
-            {
-                positionMessage.inputStates[i] = (int)Input.GetAxisRaw(PlayerController.prefix[0]+ inputIdentifier[i]);
-            }
-            outputMessages.Add(positionMessage);
-            //positionMessage
-            }
-            
+            HandleInput(outputMessages);
         }
-        
+
 
         GetPacketsFromPeer(out size, out outMessages);
         ConnectionMessage[] messagesArray = new ConnectionMessage[size];
         IntPtr current = outMessages;
-        Debug.Log(size);
+
         for (int i = 0; i < size; i++)
         {
             messagesArray[i] = new ConnectionMessage();
             messagesArray[i] = (ConnectionMessage)Marshal.PtrToStructure(current, typeof(ConnectionMessage));
 
-            //Marshal.FreeCoTaskMem((IntPtr)Marshal.ReadInt32(current));
+            //Marshal.FreeCoTaskMem((IntPtr)Marshal.ReadInt32(current));   
             //Marshal.DestroyStructure(current, typeof(ConnectionMessage));
 
-            switch(messagesArray[i].MessageID)
+            switch (messagesArray[i].MessageID)
             {
                 case 16:
                     {
@@ -159,7 +142,7 @@ public class NetworkPlugin : MonoBehaviour
                             newMessage.MessageID = (int)MessageIDs.CONNECTED_TO_SERVER;
                             newMessage.playerID = userIdentifier;
                             Debug.Log("User : " + newMessage.playerID);
-                            newMessage.inputStates = new int[INPUT_IDS_COUNT];                            
+                            newMessage.inputStates = new int[INPUT_IDS_COUNT];
                             outputMessages.Add(newMessage);
                             GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
                             player2.GetComponent<CursorScript>().isClient = true;
@@ -190,13 +173,13 @@ public class NetworkPlugin : MonoBehaviour
                     {
                         Debug.Log("User Has Joined Game");
                         output.text = "User Has Joined Game";
-                        if(!Players.ContainsKey(0))
+                        if (!Players.ContainsKey(0))
                         {
 
-                        GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
-                        player2.GetComponent<CursorScript>().isClient = true;
+                            GameObject player2 = (GameObject)Instantiate(cursorPrefab, cursorPanelParent.transform);
+                            player2.GetComponent<CursorScript>().isClient = true;
 
-                        Players.Add(0, player2);
+                            Players.Add(0, player2);
                         }
                         userConnected = true;
                     }
@@ -213,32 +196,45 @@ public class NetworkPlugin : MonoBehaviour
 
                         GameObject pl = Players[messagesArray[i].playerID];
 
-                        Vector2 pos = pl.transform.position;                        
-                            pos.x += (2* messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
-                            pos.y += (2 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
+                        Vector2 pos = pl.transform.position;
+                        //pos.x += (2 * messagesArray[i].inputStates[(int)InputIDs.HORIZONTAL]);
+                        //pos.y += (2 * messagesArray[i].inputStates[(int)InputIDs.VERTICAL]);
+
+                        pos.x = messagesArray[i].xPos;
+                        pos.y = messagesArray[i].yPos;
+                        //pl.GetComponent<Image>().color = Color.green;
+
+
+                        if (messagesArray[i].inputStates[(int)InputIDs.ATTACK] == 2)
+                        {
+                            //pl.GetComponent<Image>().color = Color.red;
+                            pl.GetComponent<CursorScript>().CheckOver();
+                        }
+
+
 
                         pl.transform.position = pos;
                     }
                     break;
-                    
+
                 default:
                     {
 
-                        Debug.Log("Unknown Descriptor : " + messagesArray[i].MessageID);
+                        //Debug.Log("Unknown Descriptor : " + messagesArray[i].MessageID);
                     }
                     break;
             }
 
 
             current = (IntPtr)((long)current + Marshal.SizeOf(messagesArray[i]));
-          
+
         }
 
-        if(outputMessages.Count > 0)
+        if (outputMessages.Count > 0)
         {
             ConnectionMessage[] messages = outputMessages.ToArray();
             int nCount = messages.Length;
-            IntPtr outMessagePTR = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(ConnectionMessage)) * nCount);           
+            IntPtr outMessagePTR = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(ConnectionMessage)) * nCount);
             IntPtr[] ptrArr = new IntPtr[nCount];
             for (int nI = 0; nI < nCount; nI++)
             {
@@ -247,7 +243,7 @@ public class NetworkPlugin : MonoBehaviour
             }
 
 
-            Debug.LogError("Sending messages result : " +  SendGameMessages(ptrArr, nCount));
+            Debug.LogError("Sending messages result : " + SendGameMessages(ptrArr, nCount));
         }
 
 
@@ -259,27 +255,27 @@ public class NetworkPlugin : MonoBehaviour
     public bool Connected;
 
     string textLine;
-   public void EnterIP(Text input)
+    public void EnterIP(Text input)
     {
         if (Connected)
             return;
         Debug.Log("Startup Result " + StartupNetwork(isServer ? 1 : 0));
         int res;
-        if(input.text.Length  < 1)
+        if (input.text.Length < 1)
         {
 
-            Debug.Log("Connect Result " + (res = Connect("10.0.0.1")));     
+            Debug.Log("Connect Result " + (res = Connect("10.0.0.1")));
         }
         else
         {
 
             Debug.Log("Connect Result " + (res = Connect(input.text)));
         }
-        Connected = true;       
+        Connected = true;
 
 
         if (!isServer)
-        {            
+        {
             userIdentifier = 0;
         }
         else
@@ -288,7 +284,7 @@ public class NetworkPlugin : MonoBehaviour
             userIdentifier = 1;
         }
         var player = GameObject.FindGameObjectWithTag("Player");
-        
+
         Players.Add(userIdentifier, player);
 
     }
@@ -318,6 +314,62 @@ public class NetworkPlugin : MonoBehaviour
         }
     }
 
+    void HandleInput(List<ConnectionMessage> outputMessages)
+    {
+        bool sendMessage = false;
+        for (int i = 0; i < INPUT_IDS_COUNT; i++)
+        {
+            if (Mathf.Abs((int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i])) == 1 && currentTimeInterval > networkTimeInterval)
+            { sendMessage = true; break; }
+            if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]))
+            { sendMessage = true; break; }
+            if (Input.GetButtonUp(PlayerController.prefix[0] + inputIdentifier[i]))
+            { sendMessage = true; break; }
+        }
+        if (sendMessage)   //(sendMessage)
+        {
+            Debug.Log("Send Input Message");
+            ConnectionMessage positionMessage = new ConnectionMessage();
+            positionMessage.MessageID = (int)MessageIDs.MOVE_CURSOR;
+            positionMessage.playerID = userIdentifier;
+            positionMessage.inputStates = new int[INPUT_IDS_COUNT];
+
+            positionMessage.xPos = Players[userIdentifier].transform.position.x;
+            positionMessage.yPos = Players[userIdentifier].transform.position.y;
+
+            for (int i = 0; i < INPUT_IDS_COUNT; i++)
+            {
+                
+                if (currentTimeInterval > networkTimeInterval)
+                    positionMessage.inputStates[i] = (int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i]);
+
+                if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]))
+                {
+                    positionMessage.inputStates[i] = 2;
+
+                    GameObject p1 = Players[userIdentifier];
+                    p1.GetComponent<Image>().color = Color.red;
+                    //p1.GetComponent<CursorScript>().CheckOver();
+
+                }
+                if (Input.GetButtonUp(PlayerController.prefix[0] + inputIdentifier[i]))
+                {
+                    positionMessage.inputStates[i] = 3;
+                }
+
+            }
+            outputMessages.Add(positionMessage);
+        }
+
+        if (currentTimeInterval < networkTimeInterval)
+        {
+            currentTimeInterval += Time.deltaTime;
+        }
+        else
+        {
+            currentTimeInterval = 0;
+        }
+    }
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -332,3 +384,4 @@ public struct ConnectionMessage
 
     public int playerID;
 }
+
