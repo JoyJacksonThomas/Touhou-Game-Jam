@@ -90,12 +90,20 @@ public class NetworkPlugin : MonoBehaviour
         try
         {
             ExitNetworking();
+            Debug.Log("Delete Succsesful");
         }
         catch
         {
             Debug.LogError("Delete Failed");
         }
-        Debug.Log("Delete Succsesful");
+    }
+
+    public void ResetNetworking()
+    {
+        Debug.Log("Reseting");
+        userConnected = false;
+        Connected = false;
+        Players = new Dictionary<int, GameObject>();
     }
 
     void Update()

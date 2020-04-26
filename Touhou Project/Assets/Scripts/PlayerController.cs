@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Quit Game");
                     Time.timeScale = 1.0f;
                     SceneManager.LoadScene("Menu");
+                    if(GameManagerScript.Instance.isNetworked)
+                        NetworkPlugin.Instance.ResetNetworking();
                 }
             }
         }
@@ -181,6 +183,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Quit Game");
                     Time.timeScale = 1.0f;
                     SceneManager.LoadScene("Menu");
+                    NetworkPlugin.Instance.ResetNetworking();
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
@@ -79,11 +80,17 @@ public class GameManagerScript : MonoBehaviour
         p0.GetComponent<PlayerController>().mCanInput = false;        
         p0.GetComponent<PlayerController>().mClient = isNetworked && NetworkPlugin.Instance.userIdentifier == 1;
         p0.transform.position = new Vector3(-2.5f, 0, 0);
+        Text txt = p0.GetComponentInChildren<Text>();
+        txt.text = "P1";
+        txt.color = Color.red;
         GameObject p1 = (GameObject)Instantiate(player1);
         p1.GetComponent<PlayerController>().mPlayerIndex = 1;
         p1.GetComponent<PlayerController>().mCanInput = false;
         p1.GetComponent<PlayerController>().mClient = isNetworked && NetworkPlugin.Instance.userIdentifier == 0;
         p1.transform.position = new Vector3(2.5f, 0, 0);
+        txt = p1.GetComponentInChildren<Text>();
+        txt.text = "P2";
+        txt.color = Color.blue;
         if (isNetworked)
         {
             NetworkPlugin.Instance.Players.Clear();
