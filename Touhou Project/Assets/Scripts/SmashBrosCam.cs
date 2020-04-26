@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SmashBrosCam : MonoBehaviour
 {
-
+    public static SmashBrosCam instance;
     public List<Transform> mTargets;
 
    public Vector3 mOffset;
@@ -17,8 +17,8 @@ public class SmashBrosCam : MonoBehaviour
 
    public float lerpSpeed;
 
-   int mPlayerOneScore = 0;
-   int mPlayerTwoScore = 0;
+   public int mPlayerOneScore = 0;
+   public int mPlayerTwoScore = 0;
 
    Text mPlayerScoreText;
    Text mCountdownText;
@@ -32,6 +32,9 @@ public class SmashBrosCam : MonoBehaviour
 
    void Start()
    {
+        if(instance == null)
+            instance = this;
+
       //  mTargets = new List<Transform>();
       //  InputMain[] tempL = GameObject.FindObjectsOfType<InputMain>();
       //  foreach (InputMain go in tempL)
@@ -153,21 +156,49 @@ public class SmashBrosCam : MonoBehaviour
         PlayerController pc;
         if(collision.TryGetComponent<PlayerController>(out pc))
         {
-            if (pc.mPlayerIndex == 1)
+            List<ConnectionMessage> messages = new List<ConnectionMessage>();
+            ConnectionMessage scoreMessage = new ConnectionMessage();
+            scoreMessage.MessageID = (int)NetworkPlugin.MessageIDs.SCORE_MESSAGE;
+            if (GameManagerScript.Instance.isNetworked)
             {
-               mPlayerTwoScore++;
-               ResetPlayers();
+                if (pc.mPlayerIndex == 1)
+                {
+                    mPlayerTwoScore++;
+                    
+                    
+                }
+                else if (pc.mPlayerIndex == 0)
+                {
+                    mPlayerOneScore++;
+                    
+                }
+                scoreMessage.playerID = pc.mPlayerIndex;
+                scoreMessage.xPos = mPlayerOneScore;
+                scoreMessage.yPos = mPlayerTwoScore;
+
+                ResetPlayers();
+                messages.Add(scoreMessage);
+                
+                NetworkPlugin.Instance.SendMessages(messages);
             }
-            else if (pc.mPlayerIndex == 0)
+            else
             {
-               mPlayerOneScore++;
-               ResetPlayers();
+                if (pc.mPlayerIndex == 1)
+                {
+                    mPlayerTwoScore++;
+                    ResetPlayers();
+                }
+                else if (pc.mPlayerIndex == 0)
+                {
+                    mPlayerOneScore++;
+                    ResetPlayers();
+                }
             }
         }
 
    }
 
-   void ResetPlayers()
+   public void ResetPlayers()
    {
         InputMain[] p = GameObject.FindObjectsOfType<InputMain>();
         foreach(InputMain ipM in p)

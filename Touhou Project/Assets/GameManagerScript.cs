@@ -36,6 +36,9 @@ public class GameManagerScript : MonoBehaviour
 
     public void SelectCharacter(int charID, int playerID)
     {
+
+        if (isNetworked && !NetworkPlugin.Instance.userConnected)
+            return;
         Debug.Log(playerID + " " + charID);
         if (charID == -1)
         {
@@ -111,6 +114,14 @@ public class GameManagerScript : MonoBehaviour
         smc.StartUp();
 
 
+    }
+
+    public IEnumerator DestroyInstances()
+    {
+        yield return new WaitForEndOfFrame();
+        Destroy(NetworkPlugin.Instance.gameObject);
+        Destroy(gameObject);
+        SceneManager.LoadScene("Menu");
     }
 
 }

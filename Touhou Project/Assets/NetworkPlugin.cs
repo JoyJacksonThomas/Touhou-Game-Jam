@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using System;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class NetworkPlugin : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class NetworkPlugin : MonoBehaviour
     {
         CONNECTED_TO_SERVER = 135,
         MOVE_CURSOR,
+        SCORE_MESSAGE,
+        EXIT_GAME
     }
 
     public enum InputIDs
@@ -239,7 +242,20 @@ public class NetworkPlugin : MonoBehaviour
                         p1.transform.position = pos;
                     }
                     break;
-
+                case (int)MessageIDs.SCORE_MESSAGE:
+                    {
+                        SmashBrosCam.instance.mPlayerOneScore = (int)messagesArray[i].xPos;
+                        SmashBrosCam.instance.mPlayerTwoScore = (int)messagesArray[i].yPos;
+                        SmashBrosCam.instance.ResetPlayers();
+                    }
+                    break;
+                case (int)MessageIDs.EXIT_GAME:
+                    {
+                        Debug.Log("Quit Game");
+                        Time.timeScale = 1.0f;
+                        StartCoroutine( GameManagerScript.Instance.DestroyInstances());
+                    }
+                    break;
                 default:
                     {
 
