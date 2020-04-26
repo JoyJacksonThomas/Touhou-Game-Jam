@@ -358,7 +358,7 @@ public class NetworkPlugin : MonoBehaviour
                // if (currentTimeInterval > networkTimeInterval)
                     positionMessage.inputStates[i] = (int)Input.GetAxisRaw(PlayerController.prefix[0] + inputIdentifier[i]);
 
-                if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]))
+                if (Input.GetButtonDown(PlayerController.prefix[0] + inputIdentifier[i]) && (i != (int)InputIDs.HORIZONTAL && i != (int)InputIDs.VERTICAL))
                 {
                     positionMessage.inputStates[i] = 2;
 
